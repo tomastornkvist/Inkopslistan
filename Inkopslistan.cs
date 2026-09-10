@@ -20,7 +20,7 @@ while (true)
         PrintMostExpensive();
 
     else if (int.TryParse(input, out index))
-        RemoveItem(index);
+        RemoveItem(index - 1);
 
     else
     {
@@ -41,12 +41,14 @@ while (true)
     }
 }
 
+// Prints the item list
 void PrintItems()
 {
     for (int i = 0; i < items.Count; i++)
         Console.WriteLine($"{i + 1}. {items[i]} - {prices[i]}");
 }
 
+// Informs the user of what to do
 void PrintUsage()
 {
     if (!firstTime)
@@ -64,6 +66,7 @@ void PrintUsage()
     Console.Write("Vad vill du göra: ");
 }
 
+// Prints the most expensive item
 void PrintMostExpensive()
 {
     int selected = -1;
@@ -80,11 +83,13 @@ void PrintMostExpensive()
         Console.WriteLine($"Dyraste varan är {selected + 1}. {items[selected]} - {prices[selected]}");
 }
 
+// Removes the item in position index
 void RemoveItem(int index)
 {
 
 }
 
+// Adds a new item at the end of the list
 void AddItem(string input, int price)
 {
 
