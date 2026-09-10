@@ -73,9 +73,7 @@ void PrintMostExpensive()
 
     for (int i = 0; i < prices.Count; i++)
     {
-        if (selected < 0)
-            selected = i;
-        else if (prices[i] > prices[selected])
+        if (selected < 0 || prices[i] > prices[selected])
             selected = i;
     }
 
@@ -90,7 +88,16 @@ void RemoveItem(int index)
 }
 
 // Adds a new item at the end of the list
-void AddItem(string input, int price)
+// If the item already exists, update the price
+void AddItem(string item, int price)
 {
+    int index = items.FindIndex(m => item.ToLower().Equals(m.ToLower()));
 
+    if (index < 0)
+    {
+        items.Add(item);
+        prices.Add(price);
+    }
+    else
+        prices[index] = price;
 }
