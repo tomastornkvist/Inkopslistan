@@ -13,7 +13,12 @@ while (true)
     PrintUsage();
     simpleMessage = false;
 
-    string input = Console.ReadLine()!;
+    string input;
+
+    do
+    {
+        input = Console.ReadLine()!.Trim();
+    } while (input.Length <= 0);
 
     // Avsluta programmet
     if (input.ToLower().Equals("avsluta"))
@@ -142,7 +147,7 @@ bool RemoveItem(int index)
     return true;
 }
 
-// Adds a new item at the end of the list
+// Inserts a new item in the list, sorted based on price
 // If the item already exists, update the price
 void AddItem(string item, int price)
 {
@@ -150,8 +155,13 @@ void AddItem(string item, int price)
 
     if (index < 0)
     {
-        items.Add(item);
-        prices.Add(price);
+        int i;
+        for (i = 0; i < prices.Count; i++)
+            if (price < prices[i])
+                break;
+
+        prices.Insert(i, price);
+        items.Insert(i, item);
     }
     else
         prices[index] = price;
