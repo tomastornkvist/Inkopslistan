@@ -1,5 +1,5 @@
-List<string> items = new();
-List<int> prices = new();
+List<string> items = [];
+List<int> prices = [];
 
 bool firstTime = true;
 bool simpleMessage = false;
