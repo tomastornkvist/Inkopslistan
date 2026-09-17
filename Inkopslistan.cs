@@ -118,7 +118,7 @@ void PrintMostExpensive()
     }
 }
 
-// Prints the most expensive item
+// Prints the cheapest item
 void PrintLeastExpensive()
 {
     int selected = -1;
