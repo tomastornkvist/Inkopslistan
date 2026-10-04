@@ -75,8 +75,14 @@ void PrintItems()
         Console.WriteLine("--------------");
     }
 
+    int totalPrice = 0;
+
     for (int i = 0; i < items.Count; i++)
+    {
         Console.WriteLine($"{i + 1}. {items[i]} - {prices[i]} kr");
+        totalPrice += prices[i];
+    }
+    Console.WriteLine($"Totalt: {totalPrice} kr");
 }
 
 // Informs the user of what to do
