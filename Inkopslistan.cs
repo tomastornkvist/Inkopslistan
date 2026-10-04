@@ -2,13 +2,17 @@ List<string> items = [];
 List<int> prices = [];
 
 bool firstTime = true;
+bool sorted = false;
 
 // An eternal loop that keeps the program running
 while (true)
 {
     int index;
 
-    PrintItems();
+    if (sorted)
+        PrintSortedItems();
+    else
+        PrintItems(items, prices);
     PrintUsage();
 
     string input;
@@ -22,8 +26,12 @@ while (true)
     if (input.ToLower().Equals("avsluta"))
         break;
 
+    // Visa listan sorterad efter pris
+    if (input.ToLower().Equals("sortera"))
+        sorted = true;
+
     // Visa dyraste varan
-    if (input.ToLower().Equals("dyrast"))
+    else if (input.ToLower().Equals("dyrast"))
         PrintMostExpensive();
 
     // Visa billigaste varan
@@ -42,25 +50,41 @@ while (true)
     {
         int price;
 
-        while (true)
-        {
-            Console.Write("Ange varans pris: ");
+        Console.Write("Ange varans pris: ");
 
-            if (int.TryParse(Console.ReadLine(), out price))
-            {
-                AddItem(input, price);
-                break;
-            }
-            else
-                Console.Write("Priset måste vara i hela kronor. ");
-        }
+        if (int.TryParse(Console.ReadLine(), out price))
+            AddItem(input, price);
+        else
+            Console.Write("Priset måste vara i hela kronor. ");
     }
 }
 
-// Prints the item list
-void PrintItems()
+// Prints the item list sorted on price
+void PrintSortedItems()
 {
-    if (items.Count > 0)
+    List<string> sortedItems = [];
+    List<int> sortedPrices = [];
+
+    for (int i = 0; i < prices.Count; i++)
+    {
+        int j;
+        for (j = 0; j < sortedPrices.Count; j++)
+        {
+            if (prices[i] < sortedPrices[j])
+                break;
+        }
+        sortedPrices.Insert(j, prices[i]);
+        sortedItems.Insert(j, items[i]);
+    }
+
+    PrintItems(sortedItems, sortedPrices);
+    sorted = false;
+}
+
+// Prints the item list
+void PrintItems(List<string> _items, List<int> _prices)
+{
+    if (_items.Count > 0)
     {
         Console.WriteLine();
         Console.WriteLine("Varor");
@@ -69,12 +93,14 @@ void PrintItems()
 
     int totalPrice = 0;
 
-    for (int i = 0; i < items.Count; i++)
+    for (int i = 0; i < _items.Count; i++)
     {
-        Console.WriteLine($"{i + 1}. {items[i]} - {prices[i]} kr");
-        totalPrice += prices[i];
+        Console.WriteLine($"{i + 1}. {_items[i]} - {_prices[i]} kr");
+        totalPrice += _prices[i];
     }
-    Console.WriteLine($"Totalt: {totalPrice} kr");
+
+    if (_prices.Count > 0)
+        Console.WriteLine($"Totalt: {totalPrice} kr");
 }
 
 // Informs the user of what to do
@@ -91,6 +117,7 @@ void PrintUsage()
     Console.WriteLine("Skriv namnet på en ny vara för att lägga till i inköpslistan.");
     Console.WriteLine("Numret på en befintlig vara tar bort den.");
     Console.WriteLine("DYRAST/BILLIGAST visar dyraste/billigaste varan.");
+    Console.WriteLine("SORTERA visar listan sorterad efter pris.");
     Console.WriteLine("AVSLUTA stänger ner programmet.");
     Console.Write("Vad vill du göra: ");
 }
