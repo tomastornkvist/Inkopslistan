@@ -2,7 +2,6 @@ List<string> items = [];
 List<int> prices = [];
 
 bool firstTime = true;
-bool simpleMessage = false;
 
 // An eternal loop that keeps the program running
 while (true)
@@ -11,7 +10,6 @@ while (true)
 
     PrintItems();
     PrintUsage();
-    simpleMessage = false;
 
     string input;
 
@@ -36,10 +34,7 @@ while (true)
     else if (int.TryParse(input, out index))
     {
         if (!RemoveItem(index - 1))
-        {
             Console.WriteLine("Den varan finns inte.");
-            simpleMessage = true;
-        }
     }
 
     // Lägg till en vara
@@ -65,9 +60,6 @@ while (true)
 // Prints the item list
 void PrintItems()
 {
-    if (simpleMessage)
-        return;
-
     if (items.Count > 0)
     {
         Console.WriteLine();
@@ -88,21 +80,18 @@ void PrintItems()
 // Informs the user of what to do
 void PrintUsage()
 {
-    if (!simpleMessage)
+    if (!firstTime)
     {
-        if (!firstTime)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("---------------------------------------------");
-        }
-        else
-            firstTime = false;
-
-        Console.WriteLine("Skriv namnet på en ny vara för att lägga till i inköpslistan.");
-        Console.WriteLine("Numret på en befintlig vara tar bort den.");
-        Console.WriteLine("DYRAST/BILLIGAST visar dyraste/billigaste varan.");
-        Console.WriteLine("AVSLUTA stänger ner programmet.");
+        Console.WriteLine("");
+        Console.WriteLine("---------------------------------------------");
     }
+    else
+        firstTime = false;
+
+    Console.WriteLine("Skriv namnet på en ny vara för att lägga till i inköpslistan.");
+    Console.WriteLine("Numret på en befintlig vara tar bort den.");
+    Console.WriteLine("DYRAST/BILLIGAST visar dyraste/billigaste varan.");
+    Console.WriteLine("AVSLUTA stänger ner programmet.");
     Console.Write("Vad vill du göra: ");
 }
 
@@ -120,7 +109,6 @@ void PrintMostExpensive()
     if (selected >= 0)
     {
         Console.WriteLine($"Dyraste varan är {selected + 1}. {items[selected]} - {prices[selected]} kr");
-        simpleMessage = true;
     }
 }
 
@@ -136,10 +124,7 @@ void PrintLeastExpensive()
     }
 
     if (selected >= 0)
-    {
         Console.WriteLine($"Billigaste varan är {selected + 1}. {items[selected]} - {prices[selected]} kr");
-        simpleMessage = true;
-    }
 }
 
 // Removes the item in position index
