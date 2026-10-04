@@ -146,13 +146,8 @@ void AddItem(string item, int price)
 
     if (index < 0)
     {
-        int i;
-        for (i = 0; i < prices.Count; i++)
-            if (price < prices[i])
-                break;
-
-        prices.Insert(i, price);
-        items.Insert(i, item);
+        items.Add(item);
+        prices.Add(price);
     }
     else
         prices[index] = price;
